@@ -68,3 +68,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Login page avatar author: (<a href="https://www.freepik.com/free-vector/young-people-avatar-silhouette_8205584.htm#page=2&query=avatar&position=0&from_view=keyword&track=sph">Image by studiogstock</a> on Freepik)
+
+### Avatar image author: (<a href="https://www.freepik.com/free-vector/businessman-choosing-options-computer_4530235.htm#query=employee%20polls&position=7&from_view=search&track=ais">Image by katemangostar</a> on Freepik)
