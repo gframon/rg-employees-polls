@@ -74,6 +74,8 @@ li {
   list-style-type: none;
   padding: 10px;
   text-decoration: none;
+  display: flex;
+  flex-direction: row;
 }
 
 .login-info {
@@ -100,7 +102,7 @@ li {
   height: 100px;
 }
 
-.question-length {
+.poll-length {
   text-align: right;
   margin-top: 10px;
   font-size: 20px;
@@ -129,4 +131,58 @@ input[type=text], input[type=password] {
 img.avatar {
   width: 90%;
   border-radius: 100%;
+}
+
+/* Testing */
+.poll {
+  width: 40%;
+  max-width: 295px;
+  padding: 5px;
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid #dad7d7;
+  border-radius: 3px;
+  cursor: pointer;
+  flex-direction: row;
+}
+
+.poll-info {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.poll-info > div > span:first-child {
+  font-weight: bold;
+  margin-right: 5px;
+}
+.poll-info > div > span:nth-child(2) {
+  color: #969696;
+  font-size: 16px;
+}
+.poll-info > div > div {
+  color: #969696;
+  font-size: 15px;
+}
+.poll-info > div > p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.poll-icons {
+  display: flex;
+  align-items: center;
+}
+.poll-icons > span {
+  color: #969696;
+  margin: 0 15px 0 5px;
+  font-size: 18px !important;
+}
+.poll-icon {
+  font-size: 27px;
+  color: #697784;
+}
+.poll-icon:hover {
+  color: #00b5d6;
+  cursor: pointer;
 }

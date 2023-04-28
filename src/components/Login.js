@@ -1,13 +1,11 @@
-import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate, navigate } from 'react-router-dom';
-import logo from "../assets/19222.jpg"
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { handleLogin } from '../actions/users';
+import { useNavigate } from 'react-router-dom';
+import logo from '../assets/19222.jpg';
 
-function Login(props) {
-  let navigate = useNavigate();
-  const form = useRef();
-  const dispatch = useDispatch();
-
+function Login({ dispatch, authedUser }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     id: '',
     password: '',
@@ -21,13 +19,20 @@ function Login(props) {
   // TODO: create the handleSubmit method
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('it is working!');
-    
+    dispatch(handleLogin(user.id, user.password));
+
+    setUser({ id: '', password: '' });
   };
+
+  useEffect(() => {
+    if (authedUser) {
+      navigate('/');
+    }
+  }, [authedUser, navigate]);
 
   return (
     <div className='login-info'>
-    <h1 className='center'>Employee Polls</h1>
+      <h1 className='center'>Employee Polls</h1>
       <div className='imgcontainer'>
         <img src={logo} alt='Login Avatar' className='avatar' />
       </div>
@@ -35,7 +40,7 @@ function Login(props) {
       {/** TODO: add image */}
       <form className='login-info'>
         <div className='center'>
-          <label htmlFor='id'>Username</label>
+          <label htmlFor='id'>User</label>
           <input
             name='id'
             type='text'
@@ -67,4 +72,9 @@ function Login(props) {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  console.info('*** Login State ***', state)
+  return { authedUser: state.authedUser }
+}
+
+export default connect(mapStateToProps)(Login);
