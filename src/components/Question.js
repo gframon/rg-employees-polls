@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+// import { Container, CssBaseline, Box } from '@mui/material';
 import { formatDate } from '../utils/helpers';
 
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ const Question = (props) => {
   }
   const { timestamp, author } = props.question;
   return (
-    <div className='poll'>
+    <div className='poll' style={{marginTop: '10px'}}>
       <div className='poll-info'>
         <span>{author}</span>
         <div>{formatDate(timestamp)}</div>

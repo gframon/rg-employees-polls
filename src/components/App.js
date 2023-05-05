@@ -1,6 +1,6 @@
 import { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { handleInitialData } from '../actions/shared';
 import LoadingBar from 'react-redux-loading-bar';
 import Nav from './Nav';
@@ -9,12 +9,14 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 
 function App(props) {
+  let navigate = useNavigate();
+
   useEffect(() => {
-    console.info('*** App re-rendered ***');
+    if (props.isLogged) navigate('/login');
     props.dispatch(handleInitialData());
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.isLogged]);
 
   return (
     <Fragment>
@@ -32,7 +34,7 @@ function App(props) {
 }
 
 const mapStateToProps = ({ authedUser }) => ({
-  loading: authedUser === null,
+  isLogged: authedUser === null,
 });
 
 export default connect(mapStateToProps)(App);
