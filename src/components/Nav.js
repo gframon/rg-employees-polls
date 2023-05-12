@@ -1,46 +1,77 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
 import { handleLogout } from '../actions/authedUser';
 
-const Nav = (props) => {
+const pages = [
+  { text: 'Home', to: '/home' },
+  { text: 'Leaderboard', to: '/leaderboard' },
+  { text: 'New', to: '/new' },
+];
+
+const Nav = ({ authedUser, isLogged, userAvatar, dispatch }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    const { name } = e.target;
+    navigate(name);
+  };
+
   const userLogout = (e) => {
     e.preventDefault();
     console.info('It could be done this way!');
-    props.dispatch(handleLogout(props.authedUser));
+    dispatch(handleLogout(authedUser));
   };
+
   return (
     <>
-      {props.isLogged && (
-        <nav className='nav'>
-          <ul>
-            <li>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/leaderboard'>Leaderboard</Link>
-            </li>
-            <li>
-              <Link to='/add'>New</Link>
-            </li>
-            <li style={{ marginLeft: '80%' }}>
-              {/** TODO: add avatar an username */}
-              <Link to='/profile'>{props.authedUser}</Link>
-            </li>
-            <li>
-              <Link to='/login' onClick={userLogout}>
+      {isLogged && (
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position='static'>
+            <Toolbar>
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                {pages.map((page) => (
+                  <Button
+                    key={page.text}
+                    name={page.to}
+                    onClick={handleClick}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.text}
+                  </Button>
+                ))}
+              </Box>
+              <Tooltip title={authedUser}>
+                <IconButton sx={{ p: 0 }}>
+                  <Avatar alt='Remy Sharp' src={userAvatar} />
+                </IconButton>
+              </Tooltip>
+
+              <Button color='inherit' onClick={userLogout}>
                 Logout
-              </Link>
-            </li>
-          </ul>
-        </nav>
+              </Button>
+            </Toolbar>
+          </AppBar>
+        </Box>
       )}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  console.info('*** Nav State ***', state);
-  return { isLogged: state.authedUser !== null, authedUser: state.authedUser };
+  const { users, authedUser } = state;
+  const userAvatar = authedUser ? users[authedUser].avatarURL : '';
+  return {
+    isLogged: authedUser !== null,
+    authedUser,
+    userAvatar,
+  };
 };
 
 export default connect(mapStateToProps)(Nav);

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { handleLogin } from '../actions/users';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/19222.jpg';
+import logo from '../assets/logo-img.jpeg';
 
 function Login({ dispatch, authedUser }) {
   const navigate = useNavigate();
@@ -73,7 +73,6 @@ function Login({ dispatch, authedUser }) {
 }
 
 const mapStateToProps = (state) => {
-  console.info('*** Login State ***', state)
   return { authedUser: state.authedUser }
 }
 

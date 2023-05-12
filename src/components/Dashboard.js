@@ -6,7 +6,6 @@ import { Divider } from '@mui/material';
 import Question from './Question';
 
 const Dashboard = (props) => {
-  console.info('** dashboard props **', props);
   return (
     <>
       <CssBaseline />
@@ -47,7 +46,6 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   const { questions, authedUser } = state;
   let dashboard = { newQuestions: [], doneQuestions: [] };
-  // console.info('*** Dashboard state ***', state);
   Object.values(questions).map(({ id, optionOne, optionTwo }) => {
     return optionOne.votes.includes(authedUser) || optionTwo.votes.includes(authedUser)
       ? dashboard.doneQuestions.push(id)

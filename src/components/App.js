@@ -6,6 +6,8 @@ import LoadingBar from 'react-redux-loading-bar';
 import Nav from './Nav';
 import NotFound from './NotFound';
 import Dashboard from './Dashboard';
+import NewPoll from './NewPoll'
+import Question from './Question'
 import Login from './Login';
 
 function App(props) {
@@ -25,7 +27,10 @@ function App(props) {
         <Nav />
         <Routes>
           <Route path='/' element={<Dashboard />} />
+          <Route path='/home' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/new' element={<NewPoll />} />
+          <Route path='/question/:id' element={<Question id={props.id} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </div>

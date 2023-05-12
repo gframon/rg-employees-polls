@@ -1,8 +1,8 @@
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
-import { saveQuestion, saveQuestionAnswer } from '../utils/api';
+import { showLoading, hideLoading } from "react-redux-loading-bar";
+import { saveQuestion, saveQuestionAnswer } from "../utils/api";
 
-export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
-export const ADD_QUESTION = 'ADD_QUESTION';
+export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
+export const ADD_QUESTION = "ADD_QUESTION";
 
 export function receiveQuestions(questions) {
   return {
@@ -20,15 +20,12 @@ export function addQuestion(question) {
 
 //TODO: review parameters
 export function handleAddQuestion(data) {
-  return (dispatch, getState) => {
-    const { authedUser } = getState();
+  return (dispatch) => {
     dispatch(showLoading());
 
-    return saveQuestion({
-      question: { ...data, author: authedUser },
-    })
+    return saveQuestion(data)
       .then((question) => dispatch(addQuestion(question)))
-      .then(() => dispatch(hideLoading()));
+      .finally(() => dispatch(hideLoading()));
   };
 }
 
