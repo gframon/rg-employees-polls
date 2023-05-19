@@ -1,8 +1,6 @@
-import { showLoading, hideLoading } from "react-redux-loading-bar";
-import { saveQuestion, saveQuestionAnswer } from "../utils/api";
-
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_QUESTION = "ADD_QUESTION";
+export const SAVE_QUESTION_ANSWER = "SAVE_QUESTION_ANSWER";
 
 export function receiveQuestions(questions) {
   return {
@@ -18,28 +16,11 @@ export function addQuestion(question) {
   };
 }
 
-//TODO: review parameters
-export function handleAddQuestion(data) {
-  return (dispatch) => {
-    dispatch(showLoading());
-
-    return saveQuestion(data)
-      .then((question) => dispatch(addQuestion(question)))
-      .finally(() => dispatch(hideLoading()));
-  };
-}
-
-export function handleSaveQuestionAnswer(qid, answer) {
-  return (dispatch, getState) => {
-    const { authedUser } = getState();
-    dispatch(showLoading());
-
-    return saveQuestionAnswer({
-      authedUser,
-      qid,
-      answer,
-    })
-      .then(() => dispatch(hideLoading()))
-      .catch((error) => alert(`${error}`));
+export function savePollAnswer(authedUser, qid, answer) {
+  return {
+    type: SAVE_QUESTION_ANSWER,
+    authedUser,
+    qid,
+    answer,
   };
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
-import { handleLogin } from '../actions/users';
 import { useNavigate } from 'react-router-dom';
+import { handleLogin } from '../actions/users';
 import logo from '../assets/logo-img.jpeg';
 
 function Login({ dispatch, authedUser }) {
@@ -16,19 +16,13 @@ function Login({ dispatch, authedUser }) {
     setUser({ ...user, [name]: value });
   };
 
-  // TODO: create the handleSubmit method
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(handleLogin(user.id, user.password));
 
     setUser({ id: '', password: '' });
+    navigate("/");
   };
-
-  useEffect(() => {
-    if (authedUser) {
-      navigate('/');
-    }
-  }, [authedUser, navigate]);
 
   return (
     <div className='login-info'>

@@ -27,7 +27,7 @@ export const getUserLogin = async (uid, upass) => {
       reject('Incorrect password.  Try again.');
     }
 
-    setTimeout(() => resolve({ user: users[uid] }), 1000);
+    setTimeout(() => resolve({ user: users[uid] }), 500);
   });
 };
 

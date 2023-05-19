@@ -1,8 +1,6 @@
-import { connect } from 'react-redux';
-// import { Container, CssBaseline, Box } from '@mui/material';
-import { formatDate } from '../utils/helpers';
-
-import { useNavigate } from 'react-router-dom';
+import { connect } from "react-redux";
+import { formatDate } from "../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 const Question = (props) => {
   const navigate = useNavigate();
@@ -17,12 +15,12 @@ const Question = (props) => {
   }
   const { timestamp, author } = props.question;
   return (
-    <div className='poll' style={{marginTop: '10px'}}>
-      <div className='poll-info'>
+    <div className="poll" style={{ marginTop: "5px" }}>
+      <div className="poll-info">
         <span>{author}</span>
         <div>{formatDate(timestamp)}</div>
         <br />
-        <button className='btn' onClick={toPoll}>
+        <button className="btn" onClick={toPoll}>
           Show
         </button>
       </div>
@@ -30,7 +28,7 @@ const Question = (props) => {
   );
 };
 
-const mapStateToProps = ({ users, questions, authedUser }, { id }) => {
+const mapStateToProps = ({ questions, authedUser }, { id }) => {
   const question = questions[id];
   return {
     authedUser,

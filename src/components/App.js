@@ -1,45 +1,46 @@
-import { useEffect, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { handleInitialData } from '../actions/shared';
-import LoadingBar from 'react-redux-loading-bar';
-import Nav from './Nav';
-import NotFound from './NotFound';
-import Dashboard from './Dashboard';
-import NewPoll from './NewPoll'
-import Question from './Question'
-import Login from './Login';
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import { handleInitialData } from "../actions/shared";
+import LoadingBar from "react-redux-loading-bar";
+import Nav from "./Nav";
+import NotFound from "./NotFound";
+import Dashboard from "./Dashboard";
+import NewPoll from "./NewPoll";
+import Login from "./Login";
+import PollPage from "./PollPage";
+import Leaderboard from "./Leaderboard";
 
-function App(props) {
-  let navigate = useNavigate();
-
+function App({ isLogged, dispatch }) {
   useEffect(() => {
-    if (props.isLogged) navigate('/login');
-    props.dispatch(handleInitialData());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.isLogged]);
+    dispatch(handleInitialData());
+  }, [dispatch]);
 
   return (
-    <Fragment>
+    <>
       <LoadingBar />
-      <div className='container'>
-        <Nav />
+      <Nav />
+      <div className="container">
         <Routes>
-          <Route path='/' element={<Dashboard />} />
-          <Route path='/home' element={<Dashboard />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/new' element={<NewPoll />} />
-          <Route path='/question/:id' element={<Question id={props.id} />} />
-          <Route path='*' element={<NotFound />} />
+          {isLogged ? (
+            <>
+              <Route exact path="/" element={<Dashboard />} />
+              <Route path="/add" element={<NewPoll />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/questions/:id" element={<PollPage />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          ) : (
+            <Route path="*" element={<Login />} />
+          )}
         </Routes>
       </div>
-    </Fragment>
+    </>
   );
 }
 
 const mapStateToProps = ({ authedUser }) => ({
-  isLogged: authedUser === null,
+  isLogged: authedUser !== null,
 });
 
 export default connect(mapStateToProps)(App);
