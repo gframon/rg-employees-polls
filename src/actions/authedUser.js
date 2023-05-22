@@ -1,8 +1,7 @@
-import { getUserLogout } from '../utils/api';
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import { showLoading, hideLoading } from "react-redux-loading-bar";
 
-export const SET_AUTHED_USER = 'SET_AUTHED_USER';
-export const LOGOUT = 'LOGOUT';
+export const SET_AUTHED_USER = "SET_AUTHED_USER";
+export const LOGOUT = "LOGOUT";
 
 export function setAuthedUser(id) {
   return {
@@ -17,12 +16,10 @@ export function logout() {
   };
 }
 
-export function handleLogout(uid) {
+export function handleLogout() {
   return (dispatch) => {
     dispatch(showLoading());
-    return getUserLogout(uid).then(() => {
-      dispatch(logout());
-      dispatch(hideLoading());
-    });
+    dispatch(logout());
+    return dispatch(hideLoading());
   };
 }

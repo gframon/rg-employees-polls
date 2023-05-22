@@ -16,23 +16,3 @@ export const saveQuestionAnswer = (info) => {
   return _saveQuestionAnswer(info);
 };
 
-export const getUserLogin = async (uid, upass) => {
-  const users = await _getUsers();
-
-  return new Promise((resolve, reject) => {
-    if (!uid || !upass) {
-      reject('Please provide user and password');
-    }
-    if (users[uid] && users[uid].password !== upass) {
-      reject('Incorrect password.  Try again.');
-    }
-
-    setTimeout(() => resolve({ user: users[uid] }), 500);
-  });
-};
-
-export const getUserLogout = async (uid) => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(`User ${uid} was logout.`), 1000);
-  });
-};

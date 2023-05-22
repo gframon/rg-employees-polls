@@ -1,73 +1,74 @@
-import { useState } from 'react';
-import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { handleLogin } from '../actions/users';
-import logo from '../assets/logo-img.jpeg';
+import { useState } from "react";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleLogin } from "../actions/users";
+import logo from "../assets/logo-img.jpeg";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Button from "@mui/material/Button"
 
-function Login({ dispatch, authedUser }) {
+function Login({ users, dispatch }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    id: '',
-    password: '',
-  });
+  const [user, setUser] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    const { value } = e.target;
+    setUser(value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(handleLogin(user.id, user.password));
-
-    setUser({ id: '', password: '' });
-    navigate("/");
+    if (user !== "") {
+      dispatch(handleLogin(user));
+      setUser("");
+      navigate("/");
+    }
   };
 
   return (
-    <div className='login-info'>
-      <h1 className='center'>Employee Polls</h1>
-      <div className='imgcontainer'>
-        <img src={logo} alt='Login Avatar' className='avatar' />
+    <div className="login-info">
+      <h1 className="center">Employee Polls</h1>
+      <div className="imgcontainer">
+        <img src={logo} alt="Login Avatar" className="avatar" />
       </div>
-      <h1 className='center'>Log In</h1>
-      {/** TODO: add image */}
-      <form className='login-info'>
-        <div className='center'>
-          <label htmlFor='id'>User</label>
-          <input
-            name='id'
-            type='text'
-            placeholder='User'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='center'>
-          <label>Password</label>
-          <input
-            name='password'
-            type='password'
-            placeholder='Password'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button
-          className='btn'
-          type='submit'
-          onClick={handleSubmit}
-          disabled={user.id === ''}
+      <h1 className="center">Log In</h1>
+      <FormControl sx={{ m: 1, width: 320, margin: "auto" }} onSubmit={handleSubmit}>
+        <InputLabel id="username">Users</InputLabel>
+        <Select
+          labelId="demo-controlled-open-select-label"
+          id="demo-controlled-open-select"
+          open={open}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          value={user}
+          label="username"
+          onChange={handleChange}
         >
-          Submit
-        </button>
-      </form>
+          {users.map((uid) => (
+            <MenuItem key={uid} value={uid}>
+              {uid}
+            </MenuItem>
+          ))}
+        </Select>
+        <Button variant="contained" onClick={handleSubmit}>Ok</Button>
+      </FormControl>
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
-  return { authedUser: state.authedUser }
-}
+  return { users: Object.keys(state.users) };
+};
 
 export default connect(mapStateToProps)(Login);
