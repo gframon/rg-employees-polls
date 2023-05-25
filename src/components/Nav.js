@@ -10,12 +10,12 @@ import Avatar from "@mui/material/Avatar";
 import { handleLogout } from "../actions/authedUser";
 
 const pages = [
-  { text: "Home", to: "/" },
+  { text: "Home", to: "/home" },
   { text: "Leaderboard", to: "/leaderboard" },
   { text: "New", to: "/add" },
 ];
 
-const Nav = ({ isLogged, authedUser, userAvatar, dispatch }) => {
+const Nav = ({ authedUser, userAvatar, dispatch }) => {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -26,41 +26,37 @@ const Nav = ({ isLogged, authedUser, userAvatar, dispatch }) => {
   const userLogout = (e) => {
     e.preventDefault();
     dispatch(handleLogout(authedUser));
-    navigate("/login");
+    navigate("/");
   };
 
   return (
-    <>
-      {isLogged && (
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) => (
-                  <Button
-                    key={page.text}
-                    name={page.to}
-                    onClick={handleClick}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {page.text}
-                  </Button>
-                ))}
-              </Box>
-              <Tooltip title={authedUser}>
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar alt={userAvatar} src={userAvatar} />
-                </IconButton>
-              </Tooltip>
-
-              <Button color="inherit" onClick={userLogout}>
-                Logout
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Button
+                data-testid={page.text}
+                key={page.text}
+                name={page.to}
+                onClick={handleClick}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {page.text}
               </Button>
-            </Toolbar>
-          </AppBar>
-        </Box>
-      )}
-    </>
+            ))}
+          </Box>
+          <Tooltip title={authedUser}>
+            <IconButton sx={{ p: 0 }}>
+              <Avatar alt="User Avatar" src={userAvatar} />
+            </IconButton>
+          </Tooltip>
+          <Button data-testid="logout" color="inherit" onClick={userLogout}>
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
@@ -68,7 +64,6 @@ const mapStateToProps = (state) => {
   const { users, authedUser } = state;
   const userAvatar = authedUser ? users[authedUser].avatarURL : "";
   return {
-    isLogged: authedUser !== null,
     authedUser,
     userAvatar,
   };

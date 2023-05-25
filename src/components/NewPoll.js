@@ -23,7 +23,7 @@ const NewPoll = ({ dispatch, authedUser }) => {
     e.preventDefault();
     dispatch(handleAddQuestion(poll));
 
-    navigate("/");
+    navigate("/home");
   };
 
   return (

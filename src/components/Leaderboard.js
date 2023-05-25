@@ -53,18 +53,25 @@ const Leaderboard = ({ users }) => {
   );
 };
 
-const mapStateToProps = ({ authedUser, users, questions }) => {
+const mapStateToProps = ({ authedUser, users }) => {
   let usersArray = [];
-//   console.info(questions);
-  Object.keys(users).map((id) =>
-    usersArray.push({
-      id,
-      name: users[id].name,
-      avatarURL: users[id].avatarURL,
-      answered: Object.keys(users[id].answers).length,
-      created: Object.keys(users[id].questions).length,
+  Object.keys(users)
+    .sort((a, b) => {
+      const sortA =
+        Object.keys(users[a].answers).length + Object.keys(users[a].questions).length;
+      const sortB =
+        Object.keys(users[b].answers).length + Object.keys(users[b].questions).length;
+      return sortB - sortA;
     })
-  );
+    .map((id) =>
+      usersArray.push({
+        id,
+        name: users[id].name,
+        avatarURL: users[id].avatarURL,
+        answered: Object.keys(users[id].answers).length,
+        created: Object.keys(users[id].questions).length,
+      })
+    );
   return {
     authedUser,
     users: usersArray,

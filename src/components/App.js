@@ -18,23 +18,21 @@ function App({ isLogged, dispatch }) {
 
   return (
     <>
-      <LoadingBar />
-      <Nav />
-      <div className="container">
-        <Routes>
-          {isLogged ? (
-            <>
-              <Route exact path="/" element={<Dashboard />} />
-              <Route path="/add" element={<NewPoll />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/questions/:id" element={<PollPage />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          ) : (
-            <Route path="*" element={<Login />} />
-          )}
-        </Routes>
-      </div>
+      {isLogged ? (
+        <div className="container">
+          <LoadingBar />
+          <Nav />
+          <Routes>
+            <Route path="/home" element={<Dashboard />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/add" element={<NewPoll />} />
+            <Route exact path="/questions/:id" element={<PollPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      ) : (
+        <Login />
+      )}
     </>
   );
 }
