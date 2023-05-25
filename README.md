@@ -1,73 +1,79 @@
-# Getting Started with Create React App
+### Udacity Employee Polls Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application serves as part of the React Nanodegree certification from Udacity.
 
-## Available Scripts
-
-In the project directory, you can run:
+## `Getting Started`
+### `npm install`
+* Install the project dependecies.
+    * Dependecies: React, Redux, React Router, Material UI, Redux Thhunk, Jest, React Testing Library
 
 ### `npm start`
-
-Runs the app in the development mode.\
+* Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
+* Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Data
+There are two types of objects stored in our database:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Users
+* Questions
+### Users
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Users include:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Attribute    | Type             | Description           |
+|-----------------|------------------|-------------------         |
+| id                 | String           | The user’s unique identifier |
+| password   | String           | The user’s password in order to log in the application |
+| name          | String           | The user’s first name  and last name     |
+| avatarURL  | String           | The path to the image file |
+| questions | Array | A list of ids of the polling questions this user created|
+| answers      | Object         |  The object's keys are the ids of each question this user answered. The value of each key is the answer the user selected. It can be either `'optionOne'` or `'optionTwo'` since each question has two options.
 
-### `npm run eject`
+### Questions
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Questions include:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Attribute | Type | Description |
+|-----------------|------------------|-------------------|
+| id                  | String | The question’s unique identifier |
+| author        | String | The author’s unique identifier |
+| timestamp | String | The time when the question was created|
+| optionOne | Object | The first voting option|
+| optionTwo | Object | The second voting option|
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Voting options are attached to questions. They include:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Attribute | Type | Description |
+|-----------------|------------------|-------------------|
+| votes             | Array | A list that contains the id of each user who voted for that option|
+| text                | String | The text of the option |
 
-## Learn More
+The application talks to the database via 4 methods:
+1) `_getUsers()` Method
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*Description*: Get all of the existing users from the database.  
+*Return Value*: Object where the key is the user’s id and the value is the user object.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2) `_getQuestions()` Method
 
-### Code Splitting
+*Description*: Get all of the existing questions from the database.  
+*Return Value*: Object where the key is the question’s id and the value is the question object.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3) `_saveQuestion(question)` Method
 
-### Analyzing the Bundle Size
+*Description*: Save the polling question in the database. If one of the parameters are missing, an error is thrown.
+*Parameters*:  Object that includes the following properties: `author`, `optionOneText`, and `optionTwoText`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4) `_saveQuestionAnswer(object)` Method
 
-### Making a Progressive Web App
+*Description*: Save the answer to a particular polling question in the database. If one of the parameters are missing, an error is thrown.
+*Parameters*: Object that contains the following properties: `authedUser`, `qid`, and `answer`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Credits
 
 Login page avatar author: (<a href="https://www.freepik.com/free-vector/young-people-avatar-silhouette_8205584.htm#page=2&query=avatar&position=0&from_view=keyword&track=sph">Image by studiogstock</a> on Freepik)
 
