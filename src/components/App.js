@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { handleInitialData } from "../actions/shared";
 import LoadingBar from "react-redux-loading-bar";
 import Nav from "./Nav";
@@ -18,18 +18,18 @@ function App({ isLogged, dispatch }) {
 
   return (
     <>
-      <div className="container">
+      <Router>
         <LoadingBar />
         {isLogged && <Nav />}
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
           <Route exact path="/login" element={<Login />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/add" element={<NewPoll />} />
+          <Route exact path="/leaderboard" element={<Leaderboard />} />
+          <Route exact path="/add" element={<NewPoll />} />
           <Route exact path="/questions/:id" element={<PollPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </Router>
     </>
   );
 }

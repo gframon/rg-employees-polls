@@ -1,23 +1,19 @@
 import { connect } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { withRouter } from "../utils/helpers";
 import { CssBaseline, Box, Container, Avatar, Button, Typography } from "@mui/material";
 import { handleSaveAnswer } from "../actions/shared";
 import PollStats from "./PollStats";
+import NotFound from "./NotFound";
 
-const Poll = ({
-  authedUser,
-  question,
-  userAvatar,
-  answered,
-  optionOnePercent,
-  optionTwoPercent,
-  dispatch,
-}) => {
+const Poll = ({ qid, users, questions, authedUser, dispatch }) => {
   const navigate = useNavigate();
+  const [optionOnePercent, setOptionOnePercent] = useState(0);
+  const [optionTwoPercent, setOptionTwoPercent] = useState(0);
+
   const handleClick = (answer) => {
-    dispatch(handleSaveAnswer(authedUser, question.id, answer));
+    dispatch(handleSaveAnswer(authedUser, questions[qid], answer));
   };
 
   useEffect(() => {
@@ -25,16 +21,29 @@ const Poll = ({
       navigate("/login");
     }
   }, [authedUser, navigate]);
+
+  useEffect(() => {
+    if (questions[qid]) {
+      const question = questions[qid];
+      const { optionOne, optionTwo } = question;
+      const votes = optionOne.votes.length + optionTwo.votes.length;
+      setOptionOnePercent((optionOne.votes.length / votes) * 100);
+      setOptionTwoPercent((optionTwo.votes.length / votes) * 100);
+    }
+  }, [qid, questions]);
+
+  if (!questions[qid]) return <NotFound />;
+
   return (
     <>
       <CssBaseline />
       <Container maxWidth="xl">
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box>
-            <h3 className="center">Poll by {question.author}</h3>
+            <h3 className="center">Poll by {questions[qid].author}</h3>
             <Avatar
-              alt={question.author}
-              src={userAvatar}
+              alt={questions[qid].author}
+              src={users[questions[qid].author].avatarURL}
               sx={{ width: 250, height: 250, margin: "auto" }}
             />
             <h3 className="center">Would You Rather</h3>
@@ -58,15 +67,16 @@ const Poll = ({
               }}
             >
               <Typography variant="caption" display="block">
-                {question.optionOne.text}
+                {questions[qid].optionOne.text}
               </Typography>
             </Box>
             <Box>
-              {answered ? (
+              {questions[qid].optionOne.votes.includes(authedUser) ||
+              questions[qid].optionTwo.votes.includes(authedUser) ? (
                 <PollStats
-                  votes={question.optionOne.votes.length}
+                  votes={questions[qid].optionOne.votes.length}
                   percentage={optionOnePercent}
-                  userSelection={question.optionOne.votes.includes(authedUser)}
+                  userSelection={questions[qid].optionOne.votes.includes(authedUser)}
                 />
               ) : (
                 <Button
@@ -89,15 +99,16 @@ const Poll = ({
               }}
             >
               <Typography variant="caption" display="block">
-                {question.optionTwo.text}
+                {questions[qid].optionTwo.text}
               </Typography>
             </Box>
             <Box>
-              {answered ? (
+              {questions[qid].optionOne.votes.includes(authedUser) ||
+              questions[qid].optionTwo.votes.includes(authedUser) ? (
                 <PollStats
-                  votes={question.optionTwo.votes.length}
+                  votes={questions[qid].optionTwo.votes.length}
                   percentage={optionTwoPercent}
-                  userSelection={question.optionTwo.votes.includes(authedUser)}
+                  userSelection={questions[qid].optionTwo.votes.includes(authedUser)}
                 />
               ) : (
                 <Button
@@ -118,21 +129,11 @@ const Poll = ({
 
 const mapStateToProps = ({ authedUser, questions, users }, props) => {
   const { id } = props.router.params;
-  const question = questions[id];
-  const { optionOne, optionTwo } = question;
-  const answered =
-    optionOne.votes.includes(authedUser) || optionTwo.votes.includes(authedUser);
-  const userAvatar = users[question.author].avatarURL;
-  const votes = optionOne.votes.length + optionTwo.votes.length;
-  const optionOnePercent = (optionOne.votes.length / votes) * 100;
-  const optionTwoPercent = (optionTwo.votes.length / votes) * 100;
   return {
+    qid: id,
+    users,
+    questions,
     authedUser,
-    question,
-    userAvatar,
-    answered,
-    optionOnePercent,
-    optionTwoPercent,
   };
 };
 export default withRouter(connect(mapStateToProps)(Poll));
