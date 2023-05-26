@@ -75,6 +75,6 @@ The application talks to the database via 4 methods:
 
 ### Credits
 
-Login page avatar author: (<a href="https://www.freepik.com/free-vector/young-people-avatar-silhouette_8205584.htm#page=2&query=avatar&position=0&from_view=keyword&track=sph">Image by studiogstock</a> on Freepik)
+`Login page avatar author`: (<a href="https://www.freepik.com/free-vector/young-people-avatar-silhouette_8205584.htm#page=2&query=avatar&position=0&from_view=keyword&track=sph">Image by studiogstock</a> on Freepik)
 
-### Avatar image author: (<a href="https://www.freepik.com/free-vector/businessman-choosing-options-computer_4530235.htm#query=employee%20polls&position=7&from_view=search&track=ais">Image by katemangostar</a> on Freepik)
+`Avatar image author`: (<a href="https://www.freepik.com/free-vector/businessman-choosing-options-computer_4530235.htm#query=employee%20polls&position=7&from_view=search&track=ais">Image by katemangostar</a> on Freepik)
