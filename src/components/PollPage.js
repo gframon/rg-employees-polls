@@ -1,4 +1,6 @@
 import { connect } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { withRouter } from "../utils/helpers";
 import { CssBaseline, Box, Container, Avatar, Button, Typography } from "@mui/material";
 import { handleSaveAnswer } from "../actions/shared";
@@ -13,10 +15,16 @@ const Poll = ({
   optionTwoPercent,
   dispatch,
 }) => {
+  const navigate = useNavigate();
   const handleClick = (answer) => {
     dispatch(handleSaveAnswer(authedUser, question.id, answer));
   };
 
+  useEffect(() => {
+    if (authedUser === null) {
+      navigate("/login");
+    }
+  }, [authedUser, navigate]);
   return (
     <>
       <CssBaseline />

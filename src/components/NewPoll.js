@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { handleAddQuestion } from "../actions/shared";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 
-const NewPoll = ({ dispatch, authedUser }) => {
+const NewPoll = ({ dispatch, authedUser, isLogged }) => {
   const navigate = useNavigate();
 
   const [poll, setPoll] = useState({
@@ -25,6 +25,12 @@ const NewPoll = ({ dispatch, authedUser }) => {
 
     navigate("/home");
   };
+
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/login");
+    }
+  }, [isLogged, navigate]);
 
   return (
     <div className="new-question">
@@ -71,6 +77,7 @@ const mapStateToProps = (state) => {
   const { authedUser } = state;
   return {
     authedUser,
+    isLogged: authedUser !== null,
   };
 };
 

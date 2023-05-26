@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import { handleLogout } from "../actions/authedUser";
 
 const pages = [
-  { text: "Home", to: "/home" },
+  { text: "Home", to: "/" },
   { text: "Leaderboard", to: "/leaderboard" },
   { text: "New", to: "/add" },
 ];
@@ -26,7 +26,7 @@ const Nav = ({ authedUser, userAvatar, dispatch }) => {
   const userLogout = (e) => {
     e.preventDefault();
     dispatch(handleLogout(authedUser));
-    navigate("/");
+    navigate("/login");
   };
 
   return (

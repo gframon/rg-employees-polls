@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -7,12 +8,20 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Question from "./Question";
 
-const Dashboard = (props) => {
+const Dashboard = ({ isLogged, sections }) => {
   const [value, setValue] = useState("new");
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/login");
+    }
+  }, [isLogged, navigate]);
+
   return (
     <>
       <CssBaseline />
@@ -55,7 +64,7 @@ const Dashboard = (props) => {
                   margin: "10px",
                 }}
               >
-                {props.sections[value].map((id) => (
+                {sections[value].map((id) => (
                   <Question key={id} id={id} />
                 ))}
               </Box>
@@ -70,7 +79,7 @@ const Dashboard = (props) => {
                   margin: "10px",
                 }}
               >
-                {props.sections[value].map((id) => (
+                {sections[value].map((id) => (
                   <Question key={id} id={id} />
                 ))}
               </Box>
@@ -94,6 +103,7 @@ const mapStateToProps = (state) => {
     });
 
   return {
+    isLogged: authedUser !== null,
     sections: { ...dashboard },
   };
 };

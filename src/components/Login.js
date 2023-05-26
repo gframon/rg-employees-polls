@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleLogin } from "../actions/users";
@@ -11,7 +11,7 @@ import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Alert } from "@mui/material";
 
-function Login({ users, dispatch }) {
+function Login({ isLogged, users, dispatch }) {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [errors, setErrors] = useState({});
@@ -20,11 +20,16 @@ function Login({ users, dispatch }) {
     e.preventDefault();
     if (user !== "") {
       dispatch(handleLogin(user));
-      setUser("");
-      navigate("/home");
+    } else {
+      setErrors({ onSubmitted: "Please select a User." });
     }
-    setErrors({ onSubmitted: "Please select a User." });
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate(-1);
+    }
+  }, [isLogged, navigate]);
 
   return (
     <div className="login-info">
@@ -52,15 +57,18 @@ function Login({ users, dispatch }) {
           Ok
         </Button>
         {errors.hasOwnProperty("onSubmitted") && (
-          <Alert data-testid="alert" severity="error">{errors.onSubmitted}</Alert>
+          <Alert data-testid="alert" severity="error">
+            {errors.onSubmitted}
+          </Alert>
         )}
       </FormControl>
     </div>
   );
 }
 
-const mapStateToProps = (state) => {
-  return { users: Object.keys(state.users) };
-};
+const mapStateToProps = (state) => ({
+  isLogged: state.authedUser !== null,
+  users: Object.keys(state.users),
+});
 
 export default connect(mapStateToProps)(Login);
